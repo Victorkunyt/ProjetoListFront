@@ -1,0 +1,13 @@
+logoutButton.css
+.logout-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333; /* Cor do ícone */
+  }
+  
+  .logout-button:hover {
+    color: #555; /* Cor do ícone ao passar o mouse */
+  }
+  

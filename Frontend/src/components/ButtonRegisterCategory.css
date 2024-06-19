@@ -1,0 +1,14 @@
+RegisterTaskButton.css
+.CreateTask-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333; /* Cor do ícone */
+    left: 20px; /* Ajusta a distância do lado esquerdo */
+    top: 20px; /* Opcional: ajusta a distância do topo */
+}
+
+.CreateTask-button:hover {
+    color: #555; /* Cor do ícone ao passar o mouse */
+}

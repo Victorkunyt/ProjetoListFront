@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('https://4kwallpapers.com/images/wallpapers/persona-3-reload-3840x2160-12719.jpeg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    overflow-y:auto
+}
+
+.home-container {
+    position:relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 70px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.category {
+    background: rgba(241, 230, 230, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    flex: 1;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.category h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.tasks h3 {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.tasks li {
+    color: #010101;
+    margin-bottom: 5px;
+}
+
+.logout-button-container {
+    position: fixed;
+    top: 10px;
+    right: 10px; /* Corrigido o valor do posicionamento para evitar o sobreponto com a barra de rolagem */
+}
+
+.RegisterTask-button-container {
+    position: fixed;
+    left: 20px; /* Ajusta a distância do lado esquerdo */
+    top: 20px; /* Opcional: ajusta a distância do topo */
+}
+
+.RegisterTask2-button-container {
+    position: fixed;
+    top: 20px; /* Opcional: ajusta a distância do topo */
+}
+
+.notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.notification {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.notification p {
+    margin: 0;
+    color: #333;
+}
+
+.bell-icon {
+  cursor: pointer; /* Adiciona um cursor de clique para indicar que o ícone é clicável */
+}
+
+.notification p {
+    margin: 0;
+    color: #333;
+    /* Adicione seus estilos CSS personalizados aqui */
+    font-size: 16px;
+    font-weight: bold;
+    /* Por exemplo, vamos mudar a cor do texto para azul */
+    color: blue;
+  }
+  
+
