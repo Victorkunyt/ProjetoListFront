@@ -171,7 +171,7 @@ export const SendEmail = async (to: string) => {
      const pass = "iywp rehm qptt cijm";
      const from = "REDEFINIR SENHA <rhipmasterltda@gmail.com";
      const subject = "NOVA SENHA";
-     const text = "Olá, acesse esse link para redirecionar a tela de nova senha: https://frontend-gamma-lyart.vercel.app/Redefinir-senha";
+     const text = "Olá, acesse esse link para redirecionar a tela de nova senha: https://frontend-developmentlist.vercel.app/Redefinir-senha";
 
     const response = await api.post("/sendEmail", {service,user,pass,from,subject,text, to });
     return response.data;
