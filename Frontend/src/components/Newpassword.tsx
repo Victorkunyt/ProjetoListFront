@@ -5,7 +5,6 @@ import { Newpassword } from '../services/api';
 import './Newpassword.css'; // Importe o CSS aqui
 
 const NewPasswordPage = () => {
-  const [password, setPassword] = useState('');
   const [newpassword, setNewpassword] = useState('');
   const [repeatNewpassword, setRepeatNewpassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -22,9 +21,8 @@ const NewPasswordPage = () => {
     setIsLoading(true);
     try {
       const userId = localStorage.getItem('userid');
-      await Newpassword(userId, password, newpassword, repeatNewpassword);
+      await Newpassword(userId, newpassword, repeatNewpassword);
       setSuccessMessage('Senha redefinida com sucesso!');
-      setPassword('');
       setRepeatNewpassword('');
     } catch (error) {
       setError('Ocorreu um erro ao redefinir a senha.');
@@ -38,15 +36,6 @@ const NewPasswordPage = () => {
       {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Senha Atual</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Digite sua senha atual"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
         <Form.Group controlId="formBasicNewPassword">
           <Form.Label>Nova Senha</Form.Label>
           <Form.Control

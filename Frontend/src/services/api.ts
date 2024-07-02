@@ -182,11 +182,10 @@ export const SendEmail = async (to: string) => {
 
 
 
-export const Newpassword = async (userId: unknown, password: string, newpassword: string, repeatNewpassword: string) => {
+export const Newpassword = async (userId: unknown, newpassword: string, repeatNewpassword: string) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await api.put(`/newPassword?userId=${userId}`,{
-      password,
       newpassword,
       repeatNewpassword
       }
