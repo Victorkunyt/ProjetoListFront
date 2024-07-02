@@ -9,7 +9,7 @@ import './ResetPassword.css';
 
 const ResetPassword: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
-  const [password, setPassword] = useState<string>('');
+  const [repeatNewpassword, setPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +30,7 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!password.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+    if (!repeatNewpassword.trim() || !newPassword.trim() || !confirmPassword.trim()) {
       setError('Por favor, preencha todos os campos.');
       setIsLoading(false);
       return;
@@ -49,7 +49,7 @@ const ResetPassword: React.FC = () => {
         return;
       }
 
-      await Newpassword(userId, password, newPassword, confirmPassword);
+      await Newpassword(userId, repeatNewpassword, newPassword);
       setSuccessMessage('Senha redefinida com sucesso!');
       setError('');
       navigate('/login');
@@ -76,7 +76,7 @@ const ResetPassword: React.FC = () => {
             <Form.Control
               type={showPassword ? 'text' : 'password'}
               placeholder="Digite sua senha atual"
-              value={password}
+              value={repeatNewpassword}
               onChange={(e) => setPassword(e.target.value)}
             />
             <InputGroup.Text style={{ alignSelf: 'flex-start' }}>
