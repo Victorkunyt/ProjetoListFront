@@ -2,17 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, InputGroup, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
 import CustomAlert from '../contexts/alertLogin';
 import { Newpassword } from '../services/api';
 import './ResetPassword.css';
 
 const ResetPassword: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
-  const [repeatNewpassword, setPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [repeatNewPassword, setRepeatNewPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -30,13 +27,13 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!repeatNewpassword.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+    if (!newPassword.trim() || !repeatNewPassword.trim()) {
       setError('Por favor, preencha todos os campos.');
       setIsLoading(false);
       return;
     }
 
-    if (newPassword !== confirmPassword) {
+    if (newPassword !== repeatNewPassword) {
       setError('As senhas não coincidem.');
       setIsLoading(false);
       return;
@@ -49,7 +46,7 @@ const ResetPassword: React.FC = () => {
         return;
       }
 
-      await Newpassword(userId, repeatNewpassword, newPassword);
+      await Newpassword(userId, newPassword, repeatNewPassword);
       setSuccessMessage('Senha redefinida com sucesso!');
       setError('');
       navigate('/login');
@@ -60,38 +57,17 @@ const ResetPassword: React.FC = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <div className="reset-password-container">
       <h2>Redefinir Senha</h2>
       {error && <CustomAlert message={error} />}
       {successMessage && <CustomAlert message={successMessage} type="success" />}
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formCurrentPassword">
-          <Form.Label>Senha Atual</Form.Label>
-          <InputGroup>
-            <Form.Control
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Digite sua senha atual"
-              value={repeatNewpassword}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <InputGroup.Text style={{ alignSelf: 'flex-start' }}>
-              <Button variant="outline-secondary" onClick={togglePasswordVisibility}>
-                {showPassword ? <FiEyeOff /> : <FiEye />}
-              </Button>
-            </InputGroup.Text>
-          </InputGroup>
-        </Form.Group>
-
         <Form.Group controlId="formNewPassword">
           <Form.Label>Nova Senha</Form.Label>
           <InputGroup>
             <Form.Control
-              type={showPassword ? 'text' : 'password'}
+              type="password"
               placeholder="Digite a nova senha"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
@@ -99,14 +75,14 @@ const ResetPassword: React.FC = () => {
           </InputGroup>
         </Form.Group>
 
-        <Form.Group controlId="formConfirmPassword">
+        <Form.Group controlId="formRepeatNewPassword">
           <Form.Label>Repetir Nova Senha</Form.Label>
           <InputGroup>
             <Form.Control
-              type={showPassword ? 'text' : 'password'}
+              type="password"
               placeholder="Repita a nova senha"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={repeatNewPassword}
+              onChange={(e) => setRepeatNewPassword(e.target.value)}
             />
           </InputGroup>
         </Form.Group>
