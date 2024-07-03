@@ -195,3 +195,30 @@ export const Newpassword = async (userId: unknown, newpassword: string, repeatNe
     throw error;
   }
 };
+
+export const GeneratePDF = async (userId: unknown) => {
+
+// eslint-disable-next-line no-useless-catch
+try {
+  const response = await api.post(`/generatePdf`, {
+    userId
+  });
+  return response.data
+} catch (error) {
+  throw error;
+}
+
+};
+
+export const GetPDF = async (userId: unknown) => {
+
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await api.post(`/pdf?userId=${userId}`, {
+    });
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+  
+  };

@@ -15,7 +15,8 @@ interface LoginPageProps {
 const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false); // Estado para controlar o carregamento
   const [loginValue, setLogin] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [passwordLogin, setPasswordLogin] = useState<string>("");
+  const [passwordRegister, setPasswordRegister] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
@@ -40,12 +41,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
           setIsLoading(false);
           return;
         }
-        if (!password.trim()) {
+        if (!passwordLogin.trim()) {
           setError("Por favor, preencha o campo senha");
           setIsLoading(false);
           return;
         }
-        const userData = await login(loginValue, password);
+        const userData = await login(loginValue, passwordLogin);
         localStorage.setItem('isLoggedIn', 'true');
         setIsLoggedIn(true);
 
@@ -94,7 +95,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
           setIsLoading(false);
           return;
         }
-        if (!password.trim()) {
+        if (!passwordRegister.trim()) {
           setError("Por favor, preencha com uma senha válida");
           setIsLoading(false);
           return;
@@ -103,27 +104,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
         // eslint-disable-next-line no-useless-escape
         const specialCharacterRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
 
-        if (password.length < 8) {
+        if (passwordRegister.length < 8) {
           setError('Senha precisa possuir pelo menos 8 caracteres');
           setIsLoading(false);
           return;
         }
-        if (!/[A-Z]/.test(password)) {
+        if (!/[A-Z]/.test(passwordRegister)) {
           setError('Senha precisa possuir pelo menos 1 letra Maiúscula');
           setIsLoading(false);
           return;
         }
-        if (!/[a-z]/.test(password)) {
+        if (!/[a-z]/.test(passwordRegister)) {
           setError('Senha precisa possuir pelo menos 1 letra Minúscula');
           setIsLoading(false);
           return;
         }
-        if (!numericDigitRegex.test(password)) {
+        if (!numericDigitRegex.test(passwordRegister)) {
           setError('Senha precisa possuir pelo menos um Digito Numérico');
           setIsLoading(false);
           return;
         }
-        if (!specialCharacterRegex.test(password)) {
+        if (!specialCharacterRegex.test(passwordRegister)) {
           setError('Senha precisa possuir pelo menos um caractere especial (e.g, !@#$%)');
           setIsLoading(false);
           return;
@@ -134,7 +135,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
           email,
           cellphone,
           holderid,
-          password
+          passwordRegister
         );
         console.log("Usuário registrado:", userData);
         setSuccessMessage("Registro bem-sucedido! Faça o login agora.");
@@ -167,7 +168,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
         {!isLogin && (
           <>
             <Form.Group controlId="formBasicGender">
-              <Form.Label>Gênero</Form.Label>
+              <Form.Label></Form.Label>
               <Form.Control
                 as="select"
                 value={gender}
@@ -240,16 +241,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
             <Form.Control
               type={showPassword ? 'text' : 'password'}
               placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={isLogin ? passwordLogin : passwordRegister}
+              onChange={(e) => isLogin ? setPasswordLogin(e.target.value) : setPasswordRegister(e.target.value)}
             />
-            {isLogin && (
-              <InputGroup.Text style={{ alignSelf: 'flex-start' }}>
-                <Button variant="outline-secondary" onClick={togglePasswordVisibility}>
-                  {showPassword ? <FiEyeOff /> : <FiEye />}
-                </Button>
-              </InputGroup.Text>
-            )}
+            <InputGroup.Text style={{ alignSelf: 'flex-start' }}>
+              <Button variant="outline-secondary" onClick={togglePasswordVisibility}>
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </Button>
+            </InputGroup.Text>
           </InputGroup>
         </Form.Group>
 
