@@ -46,10 +46,10 @@ body {
 
 /* Estilos para as tarefas */
 .tasks {
-  list-style-type: none;
+  list-style-type: disc; /* ou circle, square, etc. */
+  padding-left: 20px;
   padding: 0;
   margin: 0;
-  display: flex;
 }
 
 .tasks li {
