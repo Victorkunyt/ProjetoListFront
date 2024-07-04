@@ -1,9 +1,9 @@
 /* eslint-disable no-empty-pattern */
 /* eslint-disable no-empty-pattern */
 import React, { useState } from "react";
-import "./ButtonRegisterCategory.css";
-import { registerTask } from "../services/api";
-import CustomAlert from "../contexts/alertLogin"; // Seu componente de alerta
+import "./RegisterTaskButton.css";
+import { registerTask } from "../../../src/services/api";
+import CustomAlert from "../../contexts/alertLogin"; // Seu componente de alerta
 
 interface RegisterTaskButtonProps {
   categories: { id: string; nameCategory: string }[];
@@ -92,5 +92,3 @@ const RegisterTaskButton: React.FC<RegisterTaskButtonProps> = ({ categories }) =
 };
 
 export default RegisterTaskButton;
-
-

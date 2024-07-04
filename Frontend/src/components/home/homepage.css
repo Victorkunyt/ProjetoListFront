@@ -14,7 +14,7 @@ body {
 
 /* Estilos para a container principal da homepage */
 .home-container {
-  position:relative;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -34,10 +34,7 @@ body {
   border-radius: 20px;
   margin-bottom: 20px;
   flex: 1;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;}
+}
 
 .category h3 {
   color: #333;
@@ -60,26 +57,35 @@ body {
 /* Estilos para os botões */
 .logout-button-container,
 .RegisterTask-button-container,
-.RegisterTask2-button-container {
+.RegisterTask2-button-container,
+.pdf-buttons-container {
   position: fixed;
 }
 
 .logout-button-container {
-  position: fixed;
   top: 10px;
   right: 10px;
 }
 
 .RegisterTask-button-container {
-  position: fixed;
   top: 20px;
   left: 20px;
 }
 
 .RegisterTask2-button-container {
-  position: fixed;
-  top: 20px;}
-  .loading-container {
+  top: 20px;
+  left: 120px; /* Ajuste a posição conforme necessário */
+  display: inline-flex;
+}
+
+.pdf-buttons-container {
+  top: 20px;
+  right: 120px; /* Ajuste a posição conforme necessário */
+  display: inline-flex;
+  gap: 10px; /* Espaçamento entre os botões */
+}
+
+.loading-container {
   position: absolute;
   top: 50%;
   left: 50%;

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { Form, Button, Spinner, InputGroup } from "react-bootstrap";
-import { login, register } from "../services/api"; // Seu serviço de API
-import CustomAlert from "../contexts/alertLogin"; // Seu componente de alerta
+import { login, register } from "../../services/api"; // Seu serviço de API
+import CustomAlert from "../../contexts/alertLogin"; // Seu componente de alerta
 import "./login.css";
-import "./Newpassword.css";
+import "../login/login.css";
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Importe os ícones de olho aberto e fechado
 

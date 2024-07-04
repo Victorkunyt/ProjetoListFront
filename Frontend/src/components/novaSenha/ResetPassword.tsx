@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, InputGroup, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import CustomAlert from '../contexts/alertLogin';
-import { Newpassword } from '../services/api';
+import CustomAlert from '../../contexts/alertLogin';
+import { Newpassword } from '../../services/api';
 import './ResetPassword.css';
 
 const ResetPassword: React.FC = () => {

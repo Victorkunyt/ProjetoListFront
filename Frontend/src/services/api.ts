@@ -196,12 +196,16 @@ export const Newpassword = async (userId: unknown, newpassword: string, repeatNe
   }
 };
 
-export const GeneratePDF = async (userId: unknown) => {
+export const GeneratePDF = async (userId: unknown,token: unknown,) => {
 
 // eslint-disable-next-line no-useless-catch
 try {
   const response = await api.post(`/generatePdf`, {
     userId
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response.data
 } catch (error) {
@@ -210,12 +214,16 @@ try {
 
 };
 
-export const GetPDF = async (userId: unknown) => {
+export const GetPDF = async (userId: unknown,token: unknown,) => {
 
   // eslint-disable-next-line no-useless-catch
   try {
-    const response = await api.post(`/pdf?userId=${userId}`, {
-    });
+    const response = await api.get(`/pdf?userId=${userId}`, {
+      responseType: 'blob',
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+  });
     return response.data
   } catch (error) {
     throw error;

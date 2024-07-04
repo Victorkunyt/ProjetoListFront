@@ -1,8 +1,8 @@
 /* eslint-disable no-empty-pattern */
 import React, { useState } from "react";
 import "./ButtonRegisterCategory.css";
-import { registerCategory } from "../services/api";
-import CustomAlert from "../contexts/alertLogin"; // Seu componente de alerta
+import { registerCategory } from "../../services/api";
+import CustomAlert from "../../contexts/alertLogin"; // Seu componente de alerta
 
 
 interface TaskButtonProps {

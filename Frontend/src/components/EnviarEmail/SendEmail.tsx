@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
-import { SendEmail } from '../services/api';
-import CustomAlert from "../contexts/alertLogin"; // Seu componente de alerta
-import "./Newpassword.css";
-import "./login.css"; 
+import { SendEmail } from '../../services/api';
+import CustomAlert from "../../contexts/alertLogin"; // Seu componente de alerta
+import "../../components/novaSenha/ResetPassword.css";
+import "../login/login.css"; 
 
 const NewPasswordPage = () => {
   const [to, setTo] = useState<string>("");
