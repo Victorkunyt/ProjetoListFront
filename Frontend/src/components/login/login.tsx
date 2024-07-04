@@ -8,6 +8,7 @@ import "../login/login.css";
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Importe os ícones de olho aberto e fechado
 
+
 interface LoginPageProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -246,7 +247,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
             />
             <InputGroup.Text style={{ alignSelf: 'flex-start' }}>
               <Button variant="outline-secondary" onClick={togglePasswordVisibility}>
-                {showPassword ? <FiEyeOff /> : <FiEye />}
+              {showPassword ? <FiEyeOff /> : <FiEye />}
               </Button>
             </InputGroup.Text>
           </InputGroup>
@@ -256,25 +257,25 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
           {isLoading ? (
             <>
               <Spinner animation="border" size="sm" />
-              {' '}Logando...
+              {' '}{isLogin ? 'Logando...' : 'Registrando...'}
             </>
           ) : (
-            isLogin ? "Entrar" : "Registrar"
+            isLogin ? 'Entrar' : 'Registrar'
           )}
         </Button>
       </Form>
+
       <Button variant="primary" onClick={() => setIsLogin(!isLogin)}>
-{isLogin ? "Registrar" : "Voltar ao Login"}
-</Button>
+        {isLogin ? 'Registrar' : 'Voltar ao Login'}
+      </Button>
 
-{isLogin && (
-<Button variant="link" onClick={handleForgotPassword} className="forgot-password-link">
-  Esqueceu a senha?
-</Button>
-)}
-
-</div>
-);
+      {isLogin && (
+        <Button variant="link" onClick={handleForgotPassword} className="forgot-password-link">
+          Esqueceu a senha?
+        </Button>
+      )}
+    </div>
+  );
 };
 
 export default LoginPage;

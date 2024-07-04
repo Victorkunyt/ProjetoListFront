@@ -4,7 +4,7 @@ import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-
 
 interface CustomAlertProps {
   message: string;
-  type?: 'success' | 'warning' | 'error';
+  type?:  string | 'success' | 'warning' | 'error';
 }
 
 const CustomAlert: React.FC<CustomAlertProps> = ({ message, type = 'error' }) => {

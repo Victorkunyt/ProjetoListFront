@@ -93,6 +93,22 @@ export const category = async (userId: unknown, token: unknown) => {
   }
 };
 
+export const deleteCategory = async (userId: unknown, token: unknown) => {
+
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await api.delete(`deletecategory?id=${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+
+}
+
 
 export const registerCategory = async (
   token: unknown,
