@@ -58,7 +58,7 @@ const ResetPassword: React.FC = () => {
   };
 
   return (
-    <div className="reset-password-container">
+    <div className="password-reset-container">
       <h2>Redefinir Senha</h2>
       {error && <CustomAlert message={error} />}
       {successMessage && <CustomAlert message={successMessage} type="success" />}
