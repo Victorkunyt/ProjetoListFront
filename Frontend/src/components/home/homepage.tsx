@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { category, getUsers, GeneratePDF, GetPDF, deleteCategory } from '../../services/api';
+import { category, getUsers, GeneratePDF, GetPDF, deleteCategory, updateCategory, updateTasks } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from '../buttonSair/LogoutButton';
 import RegisterTaskButton from '../buttonTarefa/RegisterTaskButton';
@@ -125,6 +125,66 @@ function HomePage({ reload }: HomePageProps) {
     handleDeleteCategory(categoryId);
   };
 
+  const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null);
+  const [newCategoryName, setNewCategoryName] = useState<string>('');
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [newTaskName, setNewTaskName] = useState<string>('');
+
+  const handleEditCategory = (categoryId: string, currentName: string) => {
+    setEditingCategoryId(categoryId);
+    setNewCategoryName(currentName);
+  };
+
+  const handleEditTask = (taskId: string, currentName: string) => {
+    setEditingTaskId(taskId);
+    setNewTaskName(currentName);
+  };
+
+  const handleCategoryNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewCategoryName(e.target.value);
+  };
+
+  const handleTaskNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTaskName(e.target.value);
+  };
+
+  const saveCategoryName = async (categoryId: string) => {
+    try {
+      await updateCategory(categoryId, token, newCategoryName);
+      setCategories(categories.map(category => category.id === categoryId ? { ...category, nameCategory: newCategoryName } : category));
+      setEditingCategoryId(null);
+    } catch (error) {
+      console.error('Error updating category:', error);
+      setAlert({ message: 'Erro ao atualizar categoria.', type: 'error' });
+    }
+  };
+
+  const saveTaskName = async (taskId: string, categoryId: string) => {
+    try {
+      await updateTasks(taskId, token, newTaskName);
+      setCategories(categories.map(category => {
+        if (category.id === categoryId) {
+          return {
+            ...category,
+            tasks: category.tasks.map((task: { id: string; }) => task.id === taskId ? { ...task, nametask: newTaskName } : task)
+          };
+        }
+        return category;
+      }));
+      setEditingTaskId(null);
+    } catch (error) {
+      console.error('Error updating task:', error);
+      setAlert({ message: 'Erro ao atualizar tarefa.', type: 'error' });
+    }
+  };
+
+  const cancelEditing = () => {
+    setEditingCategoryId(null);
+    setEditingTaskId(null);
+    setNewCategoryName('');
+    setNewTaskName('');
+  };
+
   if (isLoading) {
     return (
       <div className="loading-container">
@@ -141,14 +201,50 @@ function HomePage({ reload }: HomePageProps) {
         {categories.map((category: any, index: number) => (
           <div className="category" key={index}>
             <div className="category-header">
-              <h3>{category.nameCategory}</h3>
+              {editingCategoryId === category.id ? (
+                <>
+                  <input 
+                    type="text" 
+                    value={newCategoryName} 
+                    onChange={handleCategoryNameChange}
+                  />
+                  <button onClick={() => saveCategoryName(category.id)}>Salvar</button>
+                  <button onClick={cancelEditing}>Cancelar</button>
+                </>
+              ) : (
+                <>
+                  <h3>{category.nameCategory}</h3>
+                  <button onClick={() => handleEditCategory(category.id, category.nameCategory)}>
+                    <i className="fas fa-edit"></i>
+                  </button>
+                </>
+              )}
               <button className="delete-button" onClick={(e) => handleDeleteButtonClick(e, category.id)}>
                 <i className="fas fa-trash-alt"></i>
               </button>
             </div>
             <ul className="tasks">
               {category.tasks.map((task: any, taskIndex: number) => (
-                <li key={taskIndex}>{task.nametask}</li>
+                <li key={taskIndex}>
+                  {editingTaskId === task.id ? (
+                    <>
+                      <input 
+                        type="text" 
+                        value={newTaskName} 
+                        onChange={handleTaskNameChange}
+                      />
+                      <button onClick={() => saveTaskName(task.id, category.id)}>Salvar</button>
+                      <button onClick={cancelEditing}>Cancelar</button>
+                    </>
+                  ) : (
+                    <>
+                      {task.nametask}
+                      <button onClick={() => handleEditTask(task.id, task.nametask)}>
+                        <i className="fas fa-edit"></i>
+                      </button>
+                    </>
+                  )}
+                </li>
               ))}
             </ul>
           </div>

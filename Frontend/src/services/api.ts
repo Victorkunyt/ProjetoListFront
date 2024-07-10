@@ -97,7 +97,7 @@ export const deleteCategory = async (userId: unknown, token: unknown) => {
 
   // eslint-disable-next-line no-useless-catch
   try {
-    const response = await api.delete(`deletecategory?id=${userId}`, {
+    const response = await api.delete(`/deletecategory?id=${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -107,6 +107,23 @@ export const deleteCategory = async (userId: unknown, token: unknown) => {
     throw error;
   }
 
+}
+
+export const updateCategory = async (categoryId: unknown, token: unknown, nameCategory: string) => {
+
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const response = await api.put(`/putCategory?categoryId=${categoryId}`,{
+        nameCategory
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+      return response.data
+    } catch (error) {
+      throw error;
+    }
 }
 
 
@@ -162,6 +179,23 @@ export const registerTask = async (
     throw error;
   }
 };
+
+export const updateTasks = async (id: unknown, token: unknown, nametask: string) => {
+
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await api.put(`/putTask?id=${id}`,{
+      nametask
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const notifications = async (userId: unknown,token: unknown,) => {
   // eslint-disable-next-line no-useless-catch

@@ -36,9 +36,46 @@ body {
   flex: 1;
 }
 
+/* Estilos para o header da categoria */
+.category-header {
+  display: flex;
+  align-items: center;
+}
+
 .category h3 {
   color: #333;
-  margin-bottom: 10px;
+  margin: 0; /* Remova a margem inferior */
+  display: flex;
+  align-items: center; /* Alinha os itens horizontalmente ao centro */
+}
+
+/* Estilos para os botões de edição e exclusão */
+.category-header .actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button, .delete-button {
+  background: none;
+  border: none;
+  color: #de0505;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 5px;
+  border-radius: 50%;
+  transition: color 0.3s ease;
+}
+
+.edit-button:hover {
+  color: #007bff; /* Cor do ícone ao passar o mouse */
+}
+
+.delete-button:hover {
+  color: #ff0000; /* Cor do ícone ao passar o mouse */
+}
+
+.edit-button i, .delete-button i {
+  pointer-events: none;
 }
 
 /* Estilos para as tarefas */
@@ -54,7 +91,7 @@ body {
   margin-bottom: 5px;
 }
 
-/* Estilos para os botões */
+/* Estilos para os botões fixos */
 .logout-button-container,
 .RegisterTask-button-container,
 .RegisterTask2-button-container,
@@ -95,17 +132,4 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   text-align: center;
-}
-.delete-button {
-  border-radius: 0px;
-  width: 20px;
-  background: none;
-  border: none;
-  color: #ff0000;
-  cursor: pointer;
-  font-size: 1.2em;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
 }

@@ -41,7 +41,7 @@ const CustomAlert: React.FC<CustomAlertProps> = ({ message, type = 'error' }) =>
 
       const timer = setTimeout(() => {
         setClosed(true);
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
@@ -53,7 +53,7 @@ const CustomAlert: React.FC<CustomAlertProps> = ({ message, type = 'error' }) =>
     if (!closed) {
       timer = setTimeout(() => {
         setClosed(true);
-      }, 3000);
+      }, 2000);
     }
 
     return () => {

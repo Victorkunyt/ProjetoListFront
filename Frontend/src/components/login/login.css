@@ -38,7 +38,6 @@ input[type="password"] {
 .input-group .input-group-text button,
 input[type="submit"],
 button {
-    width: calc(100% - 20px);
     padding: 10px;
     margin: 10px;
     border: none;
