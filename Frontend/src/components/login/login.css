@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-image: url('https://4kwallpapers.com/images/wallpapers/chibi-luffy-one-2560x1440-13063.png');
+    background: rgba(255, 255, 255, 0.2);
     background-size: cover;
     background-position: center;
     height: 100vh;

@@ -197,6 +197,22 @@ export const updateTasks = async (id: unknown, token: unknown, nametask: string)
   }
 }
 
+export const deleteTasks = async (id: unknown, token: unknown) => {
+
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await api.delete(`/deleteTask?id=${id}`,
+   {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const notifications = async (userId: unknown,token: unknown,) => {
   // eslint-disable-next-line no-useless-catch
   try {

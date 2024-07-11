@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { category, getUsers, GeneratePDF, GetPDF, deleteCategory, updateCategory, updateTasks } from '../../services/api';
+import { category, getUsers, GeneratePDF, GetPDF, deleteCategory, updateCategory, updateTasks, deleteTasks } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from '../buttonSair/LogoutButton';
 import RegisterTaskButton from '../buttonTarefa/RegisterTaskButton';
@@ -125,6 +125,25 @@ function HomePage({ reload }: HomePageProps) {
     handleDeleteCategory(categoryId);
   };
 
+  const handleDeleteTask = async (taskId: string, categoryId: string) => {
+    try {
+      await deleteTasks(taskId, token);
+      setCategories(categories.map(category => {
+        if (category.id === categoryId) {
+          return {
+            ...category,
+            tasks: category.tasks.filter((task: { id: string; }) => task.id !== taskId)
+          };
+        }
+        return category;
+      }));
+      setAlert({ message: 'Tarefa excluída com sucesso.', type: 'success' });
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      setAlert({ message: 'Erro ao excluir tarefa.', type: 'error' });
+    }
+  };
+
   const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null);
   const [newCategoryName, setNewCategoryName] = useState<string>('');
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
@@ -241,6 +260,9 @@ function HomePage({ reload }: HomePageProps) {
                       {task.nametask}
                       <button onClick={() => handleEditTask(task.id, task.nametask)}>
                         <i className="fas fa-edit"></i>
+                      </button>
+                      <button className="delete-button" onClick={() => handleDeleteTask(task.id, category.id)}>
+                        <i className="fas fa-trash-alt"></i>
                       </button>
                     </>
                   )}
