@@ -125,7 +125,7 @@ body {
 
 .perfil-buttons-container {
   top: 40px;
-  right: 900px; /* Ajuste a posição conforme necessário */
+  right: 400px; /* Ajuste a posição conforme necessário */
   display: inline-flex;
   gap: 10px; /* Espaçamento entre os botões */
 }
