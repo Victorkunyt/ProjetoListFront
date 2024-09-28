@@ -95,7 +95,8 @@ body {
 .logout-button-container,
 .RegisterTask-button-container,
 .RegisterTask2-button-container,
-.pdf-buttons-container {
+.pdf-buttons-container,
+.perfil-buttons-container {
   position: fixed;
 }
 
@@ -118,6 +119,13 @@ body {
 .pdf-buttons-container {
   top: 20px;
   right: 120px; /* Ajuste a posição conforme necessário */
+  display: inline-flex;
+  gap: 10px; /* Espaçamento entre os botões */
+}
+
+.perfil-buttons-container {
+  top: 40px;
+  right: 900px; /* Ajuste a posição conforme necessário */
   display: inline-flex;
   gap: 10px; /* Espaçamento entre os botões */
 }

@@ -54,6 +54,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
         const accessToken = userData.token;
         localStorage.setItem("token", accessToken);
 
+        // const RefreshToken = userData.refresh_token
+        // localStorage.setItem("token", RefreshToken)
+
         const accessUserid = userData.refreshToken.generateRefreshToken.UserId;
         localStorage.setItem("userid", accessUserid);
 

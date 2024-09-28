@@ -3,8 +3,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { Spinner } from 'react-bootstrap';
-import { category, getUsers, GeneratePDF, GetPDF, deleteCategory, updateCategory, updateTasks, deleteTasks } from '../../services/api';
+import { faUser } from '@fortawesome/free-solid-svg-icons'; // Exemplo de ícone
+import { Spinner, Button, Modal } from 'react-bootstrap'; // Importa Modal do react-bootstrap
+import { category, getUsers, GeneratePDF, GetPDF, deleteCategory, updateCategory, updateTasks, deleteTasks, getDataUsers } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from '../buttonSair/LogoutButton';
 import RegisterTaskButton from '../buttonTarefa/RegisterTaskButton';
@@ -13,6 +14,7 @@ import Notificationtsx from '../notification/notification';
 import CustomAlert from '../../contexts/alertLogin'; // Seu componente de alerta
 import './homepage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface HomePageProps {
   reload: boolean;
@@ -22,8 +24,10 @@ function HomePage({ reload }: HomePageProps) {
   const [categories, setCategories] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [dataLoaded, setDataLoaded] = useState(false); // Estado para controlar se os dados já foram carregados
-  const [alert, setAlert] = useState({ message: '', type: 'error' }); // Definir o tipo padrão como 'error'
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [alert, setAlert] = useState({ message: '', type: 'error' });
+  const [showModal, setShowModal] = useState(false); // Estado para controlar a exibição do modal
+  const [userData, setUserData] = useState<any>({}); // Estado para armazenar os dados do usuário
   const navigate = useNavigate();
   const userid = localStorage.getItem('userid');
   const token = localStorage.getItem('token');
@@ -204,6 +208,20 @@ function HomePage({ reload }: HomePageProps) {
     setNewTaskName('');
   };
 
+  const handleShowModal = async () => {
+    try {
+      const userData = await getDataUsers(userid, token); // Chama a função para buscar os dados do usuário
+      if (userData && userData.length > 0) {
+        setUserData(userData[0]); // Define os dados do usuário para exibir no modal
+        setShowModal(true); // Exibe o modal
+      } else {
+        console.error('No user data found.');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      setAlert({ message: 'Erro ao buscar informações do usuário.', type: 'error' });
+    }
+  };
   if (isLoading) {
     return (
       <div className="loading-container">
@@ -290,6 +308,27 @@ function HomePage({ reload }: HomePageProps) {
       <div className="pdf-buttons-container">
         <button onClick={handleGenerateAndDownloadPDF}>Baixar PDF</button>
       </div>
+      <div className="perfil-buttons-container">
+  <FontAwesomeIcon icon={faUser} onClick={handleShowModal} className="perfil-buttons-container" />
+</div>
+<Modal show={showModal} onHide={() => setShowModal(false)} dialogClassName="modal-content2">
+  <Modal.Body>
+    <h2 style={{ textAlign: 'center', margin: '20px 0' }}>DADOS DO USUARIO</h2>
+    <p><strong>Nome:</strong> {userData.name}</p>
+    <p><strong>Email:</strong> {userData.email}</p>
+    <p><strong>CPF:</strong> {userData.holderid}</p>
+    <p><strong>Telefone:</strong> {userData.cellphone}</p>
+    <p><strong>Gênero:</strong> {userData.gender === 'M' ? 'Masculino' : 'Feminino'}</p>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>Fechar</Button>
+  </Modal.Footer>
+</Modal>
+
+
+
+
+
     </div>
   );
 }

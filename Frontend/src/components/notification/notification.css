@@ -99,5 +99,17 @@ body {
     /* Por exemplo, vamos mudar a cor do texto para azul */
     color: blue;
   }
+
+  .notification-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red; /* ou outra cor */
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+  
   
 

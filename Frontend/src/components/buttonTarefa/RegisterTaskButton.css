@@ -20,7 +20,16 @@
   align-items: center;
 }
 
-/* CSS para o conteúdo do modal */
+.modal-content2 {
+
+  position: fixed; /* Centraliza */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centraliza completamente */
+  width: 300px; /* Ajuste conforme necessário */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra */
+}
+
 .modal-content {
   background: white;
   padding: 20px;
@@ -29,6 +38,8 @@
   width: 300px; /* Ajuste conforme necessário */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra */
 }
+
+
 
 /* CSS para o botão de fechar o modal */
 .close {
@@ -53,6 +64,13 @@
   border-radius: 5px;
 }
 
+.modal-content2 input,
+.modal-content2 select {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 /* CSS para o botão de criar tarefa dentro do modal */
 .modal-content button {
   width: 100%;

@@ -3,6 +3,7 @@ import './notification.css';
 import { notifications } from '../../services/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { formatInTimeZone } from 'date-fns-tz'; // Importa a função correta
 
 interface NotificationProps {
   reload: boolean;
@@ -22,24 +23,22 @@ const Notificationtsx = ({ reload }: NotificationProps) => {
     try {
       const userid = localStorage.getItem("userid");
       const token = localStorage.getItem("token");
-      const response = await notifications(userid,token);
+      const response = await notifications(userid, token);
 
       if (!userid || !token) {
-        // Verifica se userid ou token é nulo e lida com isso
-        throw new Error("Usuário não autenticado."); // Ou outra ação adequada
+        throw new Error("Usuário não autenticado.");
       }
       if (response && response.notification) {
         const notificationsWithTimestamp = response.notification.map((notification: Notification) => ({
           ...notification,
-          timestamp: new Date().toISOString(),
-        }));
+          // Ajusta o timestamp para o horário de Brasília
+          timestamp: `Criado em: ${formatInTimeZone(new Date(), 'America/Sao_Paulo', 'dd-MM-yyyy')} às ${formatInTimeZone(new Date(), 'America/Sao_Paulo', 'HH:mm')}`,        }));
         setNotificationList(notificationsWithTimestamp);
       }
     } catch (error) {
       console.error('Erro ao buscar notificações:', error);
     }
   };
-  
 
   useEffect(() => {
     fetchNotifications();
@@ -58,6 +57,9 @@ const Notificationtsx = ({ reload }: NotificationProps) => {
       <div className="notification-content">
         <div className="bell-icon" onClick={toggleNotifications}>
           <FontAwesomeIcon icon={faBell} size="2x" />
+          {notificationList.length > 0 && (
+            <span className="notification-count">{notificationList.length}</span>
+          )}
         </div>
         {showNotifications && (
           <div className="notifications">
@@ -74,7 +76,7 @@ const Notificationtsx = ({ reload }: NotificationProps) => {
         )}
       </div>
     </div>
-  );
+  );  
 };
 
 export default Notificationtsx;

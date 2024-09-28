@@ -78,6 +78,20 @@ export const getUsers = async (userId: unknown,token: unknown) => {
   }
 };
 
+export const getDataUsers = async (userId: unknown,token: unknown) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await api.get(`/getDataUsers?userId=${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const category = async (userId: unknown, token: unknown) => {
   // eslint-disable-next-line no-useless-catch
