@@ -4,71 +4,61 @@ import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-
 
 interface CustomAlertProps {
   message: string;
-  type?:  string | 'success' | 'warning' | 'error';
+  type?: 'success' | 'warning' | 'error';
 }
 
 const CustomAlert: React.FC<CustomAlertProps> = ({ message, type = 'error' }) => {
-  const [closed, setClosed] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [previousMessage, setPreviousMessage] = useState('');
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
-  let icon;
-  let bgColor;
-  let textColor;
+  // Determine icon and colors based on alert type
+  const getAlertProperties = () => {
+    switch (type) {
+      case 'success':
+        return { icon: faCheckCircle, bgColor: '#28a745', textColor: '#ffffff' };
+      case 'warning':
+        return { icon: faExclamationCircle, bgColor: '#ffc107', textColor: '#212529' };
+      case 'error':
+      default:
+        return { icon: faExclamationCircle, bgColor: '#dc3545', textColor: '#ffffff' };
+    }
+  };
 
-  switch (type) {
-    case 'success':
-      icon = faCheckCircle;
-      bgColor = '#28a745';
-      textColor = '#ffffff';
-      break;
-    case 'warning':
-      icon = faExclamationCircle;
-      bgColor = '#ffc107';
-      textColor = '#212529';
-      break;
-    case 'error':
-    default:
-      icon = faExclamationCircle;
-      bgColor = '#dc3545';
-      textColor = '#ffffff';
-      break;
-  }
+  const { icon, bgColor, textColor } = getAlertProperties();
 
   useEffect(() => {
-    if (message !== errorMessage) {
-      setClosed(false);
-      setErrorMessage(message);
+    // Show alert when message changes
+    if (message) {
+      setVisible(true);
+      
+      // If the message is the same as the previous one, reset the timer
+      if (message === previousMessage) {
+        if (timerId) clearTimeout(timerId); // Clear the previous timer
+      } else {
+        setPreviousMessage(message); // Update previous message
+      }
 
-      const timer = setTimeout(() => {
-        setClosed(true);
+      // Set a new timer
+      const newTimerId = setTimeout(() => {
+        setVisible(false);
       }, 2000);
+      setTimerId(newTimerId); // Store the timer ID
 
-      return () => clearTimeout(timer);
+      return () => clearTimeout(newTimerId); // Cleanup function
+    } else {
+      setVisible(false); // Hide if message is empty
     }
-  }, [message, errorMessage]);
+  }, [message, previousMessage, timerId]);
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-
-    if (!closed) {
-      timer = setTimeout(() => {
-        setClosed(true);
-      }, 2000);
-    }
-
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [closed]);
-
-  if (closed) {
-    return null;
+  if (!visible) {
+    return null; // Render nothing if not visible
   }
 
   return (
     <div style={{ backgroundColor: bgColor, color: textColor, padding: '10px', marginBottom: '10px', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>
       <FontAwesomeIcon icon={icon} style={{ marginRight: '10px' }} />
-      <span>{errorMessage}</span>
+      <span>{message}</span>
     </div>
   );
 };

@@ -27,16 +27,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
   const [cellphone, setCellphone] = useState<string>("");
   const [holderid, setHolderid] = useState<string>("");
   const [gender, setGender] = useState<string>("");
+  const [adminUser] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const specialCaracterRegex = /[@]/;
     try {
       setIsLoading(true);
-
+    
       if (isLogin) {
+        // Validações para o login
         if (!loginValue.trim()) {
           setError("Por favor, preencha o campo login.");
           setIsLoading(false);
@@ -47,110 +48,57 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
           setIsLoading(false);
           return;
         }
+        
         const userData = await login(loginValue, passwordLogin);
         localStorage.setItem('isLoggedIn', 'true');
         setIsLoggedIn(true);
-
         const accessToken = userData.token;
         localStorage.setItem("token", accessToken);
-
-        // const RefreshToken = userData.refresh_token
-        // localStorage.setItem("token", RefreshToken)
-
         const accessUserid = userData.refreshToken.generateRefreshToken.UserId;
-        localStorage.setItem("userid", accessUserid);
-
-        setSuccessMessage("Login bem-sucedido!");
-
-        navigate('/homepage');
+        localStorage.setItem("userid", accessUserid);    
+        navigate('/homepage')
       } else {
+        // Validações para o registro
         if (!gender) {
           setError("Por favor, selecione o seu gênero");
           setIsLoading(false);
           return;
         }
-        if (!name.trim()) {
-          setError("Por favor, preencha o campo nome");
-          setIsLoading(false);
-          return;
-        }
-        if (!email.trim()) {
-          setError("Por favor, preencha o campo email");
-          setIsLoading(false);
-          return;
-        }
-        if (!specialCaracterRegex.test(email) || !email.includes(".")) {
-          setError("O Email precisa possuir (.,@)");
-          setIsLoading(false);
-          return;
-        }
-        if (!cellphone.trim()) {
-          setError("Por favor, preencha o campo telefone");
-          setIsLoading(false);
-          return;
-        }
-        if (cellphone.length !== 11) {
-          setError("O Numero de Celular tem que ter 11 Digitos");
-          setIsLoading(false);
-          return;
-        }
-        if (!holderid.trim()) {
-          setError("Por favor, preencha o campo CPF");
-          setIsLoading(false);
-          return;
-        }
-        if (!passwordRegister.trim()) {
-          setError("Por favor, preencha com uma senha válida");
-          setIsLoading(false);
-          return;
-        }
-        const numericDigitRegex = /\d/;
-        // eslint-disable-next-line no-useless-escape
-        const specialCharacterRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
 
-        if (passwordRegister.length < 8) {
-          setError('Senha precisa possuir pelo menos 8 caracteres');
-          setIsLoading(false);
-          return;
-        }
-        if (!/[A-Z]/.test(passwordRegister)) {
-          setError('Senha precisa possuir pelo menos 1 letra Maiúscula');
-          setIsLoading(false);
-          return;
-        }
-        if (!/[a-z]/.test(passwordRegister)) {
-          setError('Senha precisa possuir pelo menos 1 letra Minúscula');
-          setIsLoading(false);
-          return;
-        }
-        if (!numericDigitRegex.test(passwordRegister)) {
-          setError('Senha precisa possuir pelo menos um Digito Numérico');
-          setIsLoading(false);
-          return;
-        }
-        if (!specialCharacterRegex.test(passwordRegister)) {
-          setError('Senha precisa possuir pelo menos um caractere especial (e.g, !@#$%)');
-          setIsLoading(false);
-          return;
-        }
+      
+        // Realiza o registro do usuário
         const userData = await register(
           gender,
           name,
           email,
           cellphone,
           holderid,
-          passwordRegister
+          passwordRegister,
+          adminUser
         );
+    
         console.log("Usuário registrado:", userData);
         setSuccessMessage("Registro bem-sucedido! Faça o login agora.");
         setIsLogin(true); // Após o registro, mudando para a tela de login
       }
       setError("");
     } catch (error) {
-      setError("Usuário não encontrado no banco de dados.");
+      // Verifica se a resposta da API contém uma mensagem de erro específica
+      if (error && typeof error === 'object' && 'response' in error) {
+        const backendError = error as { response: { data: { message: string } } };
+        if (backendError.response && backendError.response.data && backendError.response.data.message) {
+          setError(backendError.response.data.message); // Mostra o erro vindo do backend (e.g., "CPF inválido")
+        } else {
+          setError("Erro desconhecido, tente novamente.");
+        }
+      } else {
+        setError("Usuário não encontrado no banco de dados.");
+      }
+         
     } finally {
       setIsLoading(false);
     }
+    
   };
 
   const togglePasswordVisibility = () => {
@@ -206,10 +154,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
             </Form.Group>
 
             <Form.Group controlId="formBasicCellphone">
-              <Form.Label>Telefone</Form.Label>
+              <Form.Label>Celular</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Digite seu telefone"
+                placeholder="Digite seu celular"
                 value={cellphone}
                 onChange={(e) => setCellphone(e.target.value)}
               />

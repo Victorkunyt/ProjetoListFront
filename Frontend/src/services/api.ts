@@ -36,7 +36,8 @@ export const register = async (
   email: string,
   cellphone: string,
   holderid: string,
-  password: string
+  password: string,
+  adminUser: boolean,
 ) => {
   // eslint-disable-next-line no-useless-catch
   try {
@@ -47,6 +48,7 @@ export const register = async (
       cellphone,
       holderid,
       password,
+      adminUser,
     });
     return response.data;
   } catch (error) {

@@ -11,7 +11,6 @@ import LogoutButton from '../buttonSair/LogoutButton';
 import RegisterTaskButton from '../buttonTarefa/RegisterTaskButton';
 import RegisterCategoryButton from '../buttonCategoria/ButtonRegisterCategory';
 import Notificationtsx from '../notification/notification';
-import CustomAlert from '../../contexts/alertLogin'; // Seu componente de alerta
 import './homepage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,7 +24,7 @@ function HomePage({ reload }: HomePageProps) {
   const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [alert, setAlert] = useState({ message: '', type: 'error' });
+  const [, setAlert] = useState({ message: '', type: 'error' });
   const [showModal, setShowModal] = useState(false); // Estado para controlar a exibição do modal
   const [userData, setUserData] = useState<any>({}); // Estado para armazenar os dados do usuário
   const navigate = useNavigate();
@@ -233,7 +232,6 @@ function HomePage({ reload }: HomePageProps) {
 
   return (
     <div className="home-container">
-      <CustomAlert message={alert.message} type={alert.type} /> {/* Passando type dinamicamente */}
       <div className="categories">
         {categories.map((category: any, index: number) => (
           <div className="category" key={index}>
